@@ -40,6 +40,6 @@ jobs:
       - name: Build (dry-run to catch build errors)
         run: npm run build
         env:
-          PUBLIC_SITE_URL: https://filadelfia.live
+          PUBLIC_SITE_URL: https://filadelfia-petrosani.ro
           PUBLIC_YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCplaceholder' }}
           PUBLIC_YOUTUBE_PLAYLIST_ID: ${{ vars.YOUTUBE_PLAYLIST_ID || 'PLplaceholder' }}
