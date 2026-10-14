@@ -119,9 +119,57 @@ describe('DespreNoi', () => {
     expect(screen.getByRole('heading', { name: /^valori$/i })).toBeInTheDocument();
   });
 
-  it('renders the founding date', () => {
+  it('renders the history milestones (1933–1935 începuturi, 11 august 1996 inaugurare)', () => {
     renderPage(<DespreNoi />, '/despre-noi');
-    expect(screen.getAllByText(/9 august 1996/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /repere din istoria noastră/i })).toBeInTheDocument();
+    expect(screen.getByText('1933–1935')).toBeInTheDocument();
+    expect(screen.getByText('11 august 1996')).toBeInTheDocument();
+  });
+
+  it('renders each of the 17 historic photos exactly once', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    const srcs = screen
+      .getAllByRole('img')
+      .map((img) => img.getAttribute('src') ?? '')
+      .filter((src) => src.startsWith('/images/istoric/'));
+    const expected = Array.from({ length: 17 }, (_, i) => `/images/istoric/${String(i + 1).padStart(2, '0')}.webp`);
+    expect([...srcs].sort()).toEqual(expected);
+  });
+
+  it('lists the milestones newest first (2026 at the top, 1933–1935 at the bottom)', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    const years = Array.from(screen.getByText('1933–1935').closest('ol')!.children).map((li) => li.querySelector('p')?.textContent);
+    expect(years).toEqual(['9 august 2026', '1996–2016', '11 august 1996', '1990–1991', '1965', '1940–1946', '1933–1935']);
+  });
+
+  it('places the photos next to their milestones, as decided by the client', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    const photosIn = (year: string) =>
+      Array.from(screen.getByText(year).closest('li')!.querySelectorAll('img')).map((img) => img.getAttribute('src'));
+    const ist = (...n: number[]) => n.map((i) => `/images/istoric/${String(i).padStart(2, '0')}.webp`);
+    expect(photosIn('1933–1935')).toEqual(ist(1));
+    expect(photosIn('1940–1946')).toEqual(ist(2, 3));
+    expect(photosIn('1965')).toEqual(ist(4, 5, 6));
+    expect(photosIn('1990–1991')).toEqual(ist(7, 8, 11));
+    expect(photosIn('11 august 1996')).toEqual(ist(9));
+    expect(photosIn('1996–2016')).toEqual(ist(10, 12, 13, 14, 15, 16, 17));
+    expect(photosIn('9 august 2026')).toEqual(
+      Array.from({ length: 12 }, (_, i) => `/images/30-ani/${String(i + 1).padStart(2, '0')}.webp`),
+    );
+  });
+
+  it('lightbox: opens photo 1, ArrowRight goes to photo 2, Escape closes', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    fireEvent.click(screen.getByRole('button', { name: /nicolae cazan vorbind/i }));
+    const dialog = screen.getByRole('dialog', { name: /fotografia 1 din 17/i });
+    expect(dialog).toHaveTextContent(/primul conducător prezbiter/i);
+    expect(screen.getByRole('button', { name: /închide/i })).toHaveFocus();
+
+    fireEvent.keyDown(document, { key: 'ArrowRight' });
+    expect(screen.getByRole('dialog', { name: /fotografia 2 din 17/i })).toHaveTextContent(/greța alexa/i);
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });
 
