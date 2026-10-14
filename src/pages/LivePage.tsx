@@ -53,7 +53,7 @@ export default function LivePage() {
             </div>
           </SectionHeading>
           {/* Bento: pe desktop primul video mare (2×2), restul mici; pe tabletă 2 coloane egale */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteConfig.youtube.featuredVideoIds.map((id, i) => (
               <div
                 key={id}

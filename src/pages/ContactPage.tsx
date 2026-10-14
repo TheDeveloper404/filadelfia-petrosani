@@ -58,10 +58,10 @@ export default function ContactPage() {
           <SectionHeading eyebrow="Hai să ne cunoaștem" title="Informații & Locație" />
 
           {/* Bento: tile-uri contact (stânga) + adresă și hartă (dreapta) */}
-          <div className="grid gap-4 lg:grid-cols-12">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
 
               {/* LEFT — Contact info */}
-              <div className="grid gap-4 lg:col-span-5">
+              <div className="grid grid-cols-1 gap-4 lg:col-span-5">
               <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
 
                 {/* Pastors */}
@@ -103,7 +103,7 @@ export default function ContactPage() {
                 <div>
                   <p className="mb-3 text-base font-bold uppercase tracking-[0.3em] text-slate-700 text-center">Secretariat</p>
                   <div className="divide-y divide-slate-100">
-                    <div className="flex items-center justify-between gap-4 py-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4 py-4">
                       <div>
                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Secretar</p>
                         <p className="mt-1 text-base font-bold text-slate-900">Marko Kiss</p>

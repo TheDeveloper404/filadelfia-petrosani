@@ -89,7 +89,7 @@ export default function ReadingPlanPage() {
           <SectionHeading eyebrow="Începeți ziua cu Biblia" title="Fii la zi cu citirea Cuvântului lui Dumnezeu" />
 
             {/* Bento: tile închis „azi" + tile alb cu lista zilelor */}
-            <div className="grid gap-4 lg:grid-cols-12">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
 
               {/* LEFT — today */}
               <div className="flex flex-col items-center justify-center gap-6 rounded-3xl bg-slate-900 p-8 text-center text-white shadow-xl shadow-slate-900/20 sm:p-12 lg:col-span-5">

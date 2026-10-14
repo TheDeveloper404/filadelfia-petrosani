@@ -130,7 +130,7 @@ export default function HomePage() {
             const nextLabel = nextService?.isOngoing ? 'În desfășurare' : nextService?.daysUntil === 0 ? 'Urmează · azi' : 'Urmează';
             return (
               // Tile-uri egale (4 pe un rând pe desktop); următorul serviciu (getNextService) e închis la culoare
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {sorted.map(({ service, nextDate }) => {
                   const isFirst = service.id === nextService?.service.id;
                   return (
@@ -156,7 +156,7 @@ export default function HomePage() {
           })()}
 
           {/* Evenimente + Calendar */}
-          <div className="mt-4 grid gap-4 lg:grid-cols-12">
+          <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-12">
             <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8 lg:col-span-5">
               <p className="mb-2 text-base font-bold uppercase tracking-[0.3em] text-slate-700">Evenimente</p>
               {upcomingEvents.length > 0 ? (
