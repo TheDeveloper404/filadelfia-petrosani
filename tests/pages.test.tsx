@@ -7,6 +7,7 @@ import LivePage from '../src/pages/LivePage';
 import ContactPage from '../src/pages/ContactPage';
 import ReadingPlanPage from '../src/pages/ReadingPlanPage';
 import AdminPage from '../src/pages/AdminPage';
+import DespreNoi from '../src/pages/DespreNoi';
 
 // ============================================================
 // Helpers
@@ -103,6 +104,24 @@ describe('ContactPage', () => {
   it('renders the map iframe', () => {
     renderPage(<ContactPage />);
     expect(screen.getByTitle(/hartă/i)).toBeInTheDocument();
+  });
+});
+
+// ============================================================
+// DespreNoi
+// ============================================================
+describe('DespreNoi', () => {
+  it('renders Misiune, Viziune și Valori (mutat de pe Acasă)', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    expect(screen.getByRole('heading', { name: /misiune, viziune și valori/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /^misiune$/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /^viziune$/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /^valori$/i })).toBeInTheDocument();
+  });
+
+  it('renders the founding date', () => {
+    renderPage(<DespreNoi />, '/despre-noi');
+    expect(screen.getAllByText(/9 august 1996/i).length).toBeGreaterThan(0);
   });
 });
 

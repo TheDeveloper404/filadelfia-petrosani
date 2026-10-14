@@ -5,6 +5,8 @@ import { formatDateRo, getReadingPlanDayIndex } from '@/utils/date';
 import Container from '@/components/ui/container';
 import Badge from '@/components/ui/badge';
 import { WaveDivider } from '@/components/WaveDivider';
+import PageHero from '@/components/PageHero';
+import SectionHeading from '@/components/SectionHeading';
 
 interface ReadingEntry {
   reading: string;
@@ -72,18 +74,11 @@ export default function ReadingPlanPage() {
       <PageMeta title="Plan de citire — Filadelfia" description="Plan anual de citire biblică pentru ziua de astăzi și următoarele zile." />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-slate-900 py-24 text-white">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="hidden sm:block absolute left-1/2 top-0 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-secondary/8 blur-[100px]" />
-        </div>
-        <Container className="relative text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-400">Lectură zilnică</p>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl" style={{ color: '#d4ab84' }}>{plan.planName}</h1>
-          <p className="mx-auto mt-4 max-w-xl text-xl leading-8 text-slate-300">
-            Citește Biblia și vei deveni mai înțelept, crede-o ca să fii în siguranță și aplică-o, ca să trăiești o viață adevărată!
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Lectură zilnică"
+        title={plan.planName}
+        subtitle="Citește Biblia și vei deveni mai înțelept, crede-o ca să fii în siguranță și aplică-o, ca să trăiești o viață adevărată!"
+      />
 
       {/* ── Plan ── */}
       <section className="relative py-20 sm:py-24 bg-[#d4ab84]">
@@ -91,21 +86,15 @@ export default function ReadingPlanPage() {
           <WaveDivider bottomColor="#d4ab84" height={70} />
         </div>
         <Container>
-          <div className="rounded-3xl bg-white shadow-sm border border-slate-200/80 overflow-hidden">
+          <SectionHeading eyebrow="Începeți ziua cu Biblia" title="Fii la zi cu citirea Cuvântului lui Dumnezeu" />
 
-            {/* Card header */}
-            <div className="border-b border-slate-100 px-4 py-6 sm:px-10 sm:py-8 text-center">
-              <p className="text-base font-semibold uppercase tracking-[0.3em]" style={{ color: '#d4ab84' }}>Începeți ziua cu Biblia</p>
-              <h2 className="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl">Fii la zi cu citirea Cuvântului lui Dumnezeu</h2>
-            </div>
-
-            {/* Two columns */}
-            <div className="grid divide-y divide-slate-100 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+            {/* Bento: tile închis „azi" + tile alb cu lista zilelor */}
+            <div className="grid gap-4 lg:grid-cols-12">
 
               {/* LEFT — today */}
-              <div className="flex flex-col items-center justify-center gap-6 p-8 sm:p-12 text-center">
+              <div className="flex flex-col items-center justify-center gap-6 rounded-3xl bg-slate-900 p-8 text-center text-white shadow-xl shadow-slate-900/20 sm:p-12 lg:col-span-5">
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-400">{todayLabel}</p>
-                <p className="text-5xl font-bold text-slate-900 leading-tight">
+                <p className="text-5xl font-bold text-white leading-tight">
                   {todayReading ? todayReading.reading : '—'}
                 </p>
                 <p className="text-sm text-slate-400">Ziua {dayIndex + 1} din {plan.readings.length}</p>
@@ -116,7 +105,7 @@ export default function ReadingPlanPage() {
                     <span>Progres plan</span>
                     <span className="text-secondary">{progress}%</span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
                     <div className="h-2 rounded-full bg-secondary transition-all" style={{ width: `${progress}%` }} />
                   </div>
                 </div>
@@ -127,7 +116,7 @@ export default function ReadingPlanPage() {
                     <span>Zile marcate ca citite</span>
                     <span className="text-green-600">{readCount} / {plan.readings.length}</span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
                     <div className="h-2 rounded-full bg-green-500 transition-all" style={{ width: `${Math.round((readCount / plan.readings.length) * 100)}%` }} />
                   </div>
                 </div>
@@ -141,7 +130,7 @@ export default function ReadingPlanPage() {
               </div>
 
               {/* RIGHT — list */}
-              <div className="p-4 sm:p-8 flex flex-col gap-3">
+              <div className="flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-sm sm:p-8 lg:col-span-7">
 
                 {/* Search */}
                 <div className="relative">
@@ -164,7 +153,7 @@ export default function ReadingPlanPage() {
                   )}
                 </div>
 
-                <div ref={listRef} className="max-h-[420px] overflow-y-auto space-y-1 pr-1">
+                <div ref={listRef} className="max-h-[420px] overflow-y-auto divide-y divide-slate-100 pr-1">
                   {filtered.length === 0 && (
                     <p className="py-8 text-center text-sm text-slate-400">Niciun rezultat pentru „{search}"</p>
                   )}
@@ -176,8 +165,8 @@ export default function ReadingPlanPage() {
                       <div
                         key={index}
                         id={isToday ? 'today-row' : undefined}
-                        className={`rounded-xl border px-4 py-3 flex items-center justify-between gap-3 transition ${
-                          isToday ? 'border-secondary/40 bg-secondary/5' : isPast ? 'border-slate-100 bg-slate-50 opacity-60' : 'border-slate-100 bg-slate-50'
+                        className={`px-3 py-3 flex items-center justify-between gap-3 transition ${
+                          isToday ? 'rounded-xl bg-secondary/10' : isPast ? 'opacity-60' : ''
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
@@ -211,7 +200,6 @@ export default function ReadingPlanPage() {
               </div>
 
             </div>
-          </div>
         </Container>
       </section>
     </div>

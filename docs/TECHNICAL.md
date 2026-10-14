@@ -155,7 +155,7 @@ Editează `src/data/site-config.json` pentru:
 ## Performanță
 
 - **FCP**: ~0.6s, **LCP**: ~0.8s, **CLS**: 0
-- Imagini preloaded (`image_bg.jpg`, `logo.png`)
+- Imagine hero preloaded (`/images/hero.webp`)
 - Firebase reads wrapped în `startTransition` pentru INP mai bun
 - Cache localStorage pentru events și schedule (fallback instant)
 - Visual snapshots actualizate automat în CI

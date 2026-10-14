@@ -82,16 +82,18 @@ export default function Layout({ children }: LayoutProps) {
       <a href="#main-content" className="skip-link">
         Sari la conținut
       </a>
-      <Nav />
       {announcement?.active && announcement.message && (
         <div className="bg-amber-500 px-4 py-2.5 text-center text-sm font-semibold text-amber-950">
           {announcement.message}
         </div>
       )}
-      <main key={location.key} id="main-content" className="page-enter flex-1">
-        {children}
-        <div className="h-[70px] bg-[#d4ab84]" aria-hidden="true" />
-      </main>
+      <div className="relative">
+        <Nav />
+        <main key={location.key} id="main-content" className="page-enter flex-1">
+          {children}
+          <div className="h-[70px] bg-[#d4ab84]" aria-hidden="true" />
+        </main>
+      </div>
       <div className="relative">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 -translate-y-full">
           <WaveDivider bottomColor="#0f172a" height={70} />

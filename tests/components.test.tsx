@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import EventCard from '../src/components/EventCard';
@@ -7,6 +7,7 @@ import MiniCalendar from '../src/components/MiniCalendar';
 import Footer from '../src/components/Footer';
 import Nav from '../src/components/Nav';
 import LivePlayer from '../src/components/LivePlayer';
+import { intersectionCallbacks } from './setup';
 
 // ============================================================
 // Helpers
@@ -142,6 +143,33 @@ describe('Nav', () => {
     expect(screen.getAllByRole('link', { name: /^live$/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /plan biblic/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /contact/i }).length).toBeGreaterThan(0);
+  });
+
+  it('shows the floating pill (and hides the hero header) once the hero header leaves the screen', () => {
+    intersectionCallbacks.length = 0;
+    withRouter(<Nav />);
+    const heroNav = screen.getByTestId('desktop-nav');
+    const heroHeader = heroNav.closest('[aria-hidden]') as HTMLElement;
+    const floatingNav = screen.getAllByRole('navigation', { hidden: true }).find(n => n !== heroNav && n.closest('.fixed.top-3'))!;
+    const floating = floatingNav.closest('[aria-hidden]') as HTMLElement;
+
+    // La încărcare: header-ul din hero e activ, pastila plutitoare e ascunsă
+    expect(heroHeader).toHaveAttribute('aria-hidden', 'false');
+    expect(floating).toHaveAttribute('aria-hidden', 'true');
+
+    // Header-ul din hero iese din ecran → pastila plutitoare apare, header-ul din hero devine inert
+    act(() => {
+      intersectionCallbacks.forEach(cb => cb([{ isIntersecting: false } as IntersectionObserverEntry], {} as IntersectionObserver));
+    });
+    expect(heroHeader).toHaveAttribute('aria-hidden', 'true');
+    expect(floating).toHaveAttribute('aria-hidden', 'false');
+
+    // Revine în ecran → invers
+    act(() => {
+      intersectionCallbacks.forEach(cb => cb([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver));
+    });
+    expect(heroHeader).toHaveAttribute('aria-hidden', 'false');
+    expect(floating).toHaveAttribute('aria-hidden', 'true');
   });
 
 });

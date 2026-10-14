@@ -14,13 +14,13 @@ export default function VerseOfTheDay({ verse, variant = 'light', className }: V
         {/* Linie verticală amber */}
         <div className="absolute left-0 top-0 h-full w-[3px] rounded-full bg-secondary/60" />
         <div className="pl-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-secondary/70 mb-5">
+          <p className="text-base font-semibold uppercase tracking-[0.3em] text-secondary/70 mb-5">
             Versetul zilei
           </p>
-          <p className="text-2xl font-light leading-10 text-slate-100 italic">
+          <p className="text-3xl font-light leading-[3rem] text-slate-100 italic">
             "{verse.text}"
           </p>
-          <cite className="mt-5 block text-base font-semibold not-italic text-slate-400">
+          <cite className="mt-5 block text-lg font-semibold not-italic text-slate-400">
             — {verse.reference}
           </cite>
         </div>

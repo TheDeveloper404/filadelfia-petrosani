@@ -4,6 +4,8 @@ import PageMeta from '@/components/PageMeta';
 import Container from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { WaveDivider } from '@/components/WaveDivider';
+import PageHero from '@/components/PageHero';
+import SectionHeading from '@/components/SectionHeading';
 
 type FormState = 'idle' | 'sending' | 'success' | 'error' | 'ratelimit';
 
@@ -41,18 +43,11 @@ export default function ContactPage() {
       <PageMeta title="Contact — Filadelfia" description="Contactează-ne. Suntem pe Str. 9 Mai, Petroșani, Hunedoara." />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-slate-900 py-24 text-white">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="hidden sm:block absolute left-1/2 top-0 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-secondary/8 blur-[100px]" />
-        </div>
-        <Container className="relative text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-400">Vino să ne cunoști</p>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl" style={{ color: '#d4ab84' }}>Contact</h1>
-          <p className="mx-auto mt-4 max-w-lg text-xl leading-8 text-slate-300">
-            Alege metoda de contact care ți se potrivește și ne vom întâlni cu bucurie.
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Vino să ne cunoști"
+        title="Contact"
+        subtitle="Alege metoda de contact care ți se potrivește și ne vom întâlni cu bucurie."
+      />
 
       {/* ── Contact + Map ── */}
       <section className="relative py-20 sm:py-24 bg-[#d4ab84]">
@@ -60,19 +55,14 @@ export default function ContactPage() {
           <WaveDivider bottomColor="#d4ab84" height={70} />
         </div>
         <Container>
-          <div className="rounded-3xl bg-white shadow-sm border border-slate-200/80 overflow-hidden">
+          <SectionHeading eyebrow="Hai să ne cunoaștem" title="Informații & Locație" />
 
-            {/* Card header */}
-            <div className="border-b border-slate-100 px-4 py-6 sm:px-10 sm:py-8 text-center">
-              <p className="text-base font-semibold uppercase tracking-[0.3em]" style={{ color: '#d4ab84' }}>Hai să ne cunoaștem</p>
-              <h2 className="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl">Informații & Locație</h2>
-            </div>
-
-            {/* Card body — 2 columns */}
-            <div className="grid divide-x divide-slate-100 lg:grid-cols-2">
+          {/* Bento: tile-uri contact (stânga) + adresă și hartă (dreapta) */}
+          <div className="grid gap-4 lg:grid-cols-12">
 
               {/* LEFT — Contact info */}
-              <div className="p-4 sm:p-10 space-y-8">
+              <div className="grid gap-4 lg:col-span-5">
+              <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
 
                 {/* Pastors */}
                 <div>
@@ -105,7 +95,9 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="border-t border-slate-100" />
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
 
                 {/* Secretariat */}
                 <div>
@@ -134,6 +126,9 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
                 {/* Social */}
                 <div>
                   <p className="mb-3 text-base font-bold uppercase tracking-[0.3em] text-slate-700 text-center">Urmărește-ne</p>
@@ -152,19 +147,21 @@ export default function ContactPage() {
                 </div>
               </div>
 
+              </div>
+
               {/* RIGHT — Address + Map */}
-              <div className="p-4 sm:p-10 space-y-6">
+              <div className="space-y-6 rounded-3xl bg-white p-6 shadow-sm sm:p-8 lg:col-span-7">
                 {/* Address */}
                 <div>
                   <p className="mb-3 text-base font-bold uppercase tracking-[0.3em] text-slate-700 text-center">Adresă</p>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-7 py-5 text-center">
+                  <div className="text-center">
                     <p className="text-lg font-semibold text-slate-800">{siteConfig.contact.address}</p>
                   </div>
                 </div>
 
                 <p className="mb-3 text-base font-bold uppercase tracking-[0.3em] text-slate-700 text-center">Harta locației</p>
                 {siteConfig.contact.mapEmbedUrl ? (
-                  <div className="overflow-hidden rounded-2xl border border-slate-200">
+                  <div className="overflow-hidden rounded-2xl">
                     <iframe
                       src={siteConfig.contact.mapEmbedUrl}
                       title="Locație pe hartă"
@@ -190,7 +187,6 @@ export default function ContactPage() {
                 )}
               </div>
 
-            </div>
           </div>
         </Container>
       </section>
@@ -198,14 +194,11 @@ export default function ContactPage() {
       {/* ── Formular contact ── */}
       <section className="pb-20 sm:pb-24 bg-[#d4ab84]">
         <Container>
-          <div className="rounded-3xl bg-white shadow-sm border border-slate-200/80 overflow-hidden">
-            <div className="border-b border-slate-100 px-4 py-6 sm:px-10 sm:py-8 text-center">
-              <p className="text-base font-semibold uppercase tracking-[0.3em]" style={{ color: '#d4ab84' }}>Scrie-ne</p>
-              <h2 className="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl">Trimite un mesaj</h2>
-              <p className="mt-3 text-slate-500 text-base">Îți vom răspunde în cel mai scurt timp posibil.</p>
-            </div>
+          <SectionHeading eyebrow="Scrie-ne" title="Trimite un mesaj">
+            <p className="mt-3 text-base text-slate-700">Îți vom răspunde în cel mai scurt timp posibil.</p>
+          </SectionHeading>
 
-            <div className="p-4 sm:p-10 max-w-2xl mx-auto">
+            <div className="mx-auto max-w-3xl rounded-3xl bg-white p-6 shadow-sm sm:p-10">
               {formState === 'success' ? (
                 <div className="flex flex-col items-center gap-4 py-12 text-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
@@ -267,7 +260,6 @@ export default function ContactPage() {
                 </form>
               )}
             </div>
-          </div>
         </Container>
       </section>
     </div>

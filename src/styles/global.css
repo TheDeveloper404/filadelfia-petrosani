@@ -76,40 +76,6 @@ a:hover {
   color: var(--color-primary);
 }
 
-.nav-link:hover {
-  color: white;
-}
-
-/* ============================================================
-   Nav animated underline
-   ============================================================ */
-.nav-link {
-  position: relative;
-  padding-bottom: 2px;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: hsl(var(--secondary));
-  border-radius: 1px;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.25s ease;
-}
-.nav-link.nav-active::after {
-  transform: scaleX(1);
-}
-.nav-link:hover::after {
-  transform: scaleX(0.5);
-}
-.nav-link.nav-active:hover::after {
-  transform: scaleX(1);
-}
-
 ul, ol {
   list-style: none;
 }

@@ -1,5 +1,4 @@
 import { formatEventDateRange } from '@/utils/date';
-import { Card } from '@/components/ui/card';
 
 interface EventCardProps {
   id: string;
@@ -16,8 +15,8 @@ export default function EventCard({ title, date, endDate, time, description, isL
   const dateDisplay = formatEventDateRange(date, endDate);
 
   return (
-    <Card className={`overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg ${isToday ? 'border-secondary/40 bg-secondary/10 shadow-md shadow-secondary/15' : 'border-slate-100 bg-slate-50'}`}>
-      <div className="space-y-2 p-5">
+    <div className={`px-3 py-4 ${isToday ? 'rounded-2xl bg-secondary/10' : ''}`}>
+      <div className="space-y-2">
         <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-secondary">
           {dateDisplay}
         </p>
@@ -33,6 +32,6 @@ export default function EventCard({ title, date, endDate, time, description, isL
         <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
         <p className="text-sm leading-6 text-slate-600">{description}</p>
       </div>
-    </Card>
+    </div>
   );
 }

@@ -42,6 +42,7 @@ export default defineConfig({
       },
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff2}'],
+        globIgnores: ['images/30-ani/**'],
       },
     }),
   ],
