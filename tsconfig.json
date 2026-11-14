@@ -21,5 +21,8 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests"],
+  // Testul importa handler-ele din api/ (cod de server Node, cu node:sqlite si process), care nu
+  // fac parte din acest tsconfig de browser. Il ruleaza vitest; tsc il sare ca sa nu traga api/ aici.
+  "exclude": ["tests/slack-alert.test.ts"]
 }
