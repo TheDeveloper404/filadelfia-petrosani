@@ -2,11 +2,18 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const notifySlack = vi.fn(async (_key: string, _text: string) => {});
 vi.mock('../api/_slack-alert', () => ({ notifySlack }));
+// CI ruleaza pe Node 20, fara `node:sqlite` → contoarele din api/_db.ts tinute in memorie.
+const kv = new Map<string, unknown>();
+vi.mock('../api/_db', () => ({
+  kvGet: (k: string) => kv.get(k) ?? null,
+  kvPut: (k: string, v: unknown) => { kv.set(k, v); },
+  kvDelete: (k: string) => { kv.delete(k); },
+}));
 
 beforeEach(() => {
   vi.resetModules();
   notifySlack.mockClear();
-  vi.stubEnv('DB_PATH', ':memory:'); // baza noua la fiecare import (vi.resetModules)
+  kv.clear();
 });
 afterEach(() => {
   vi.unstubAllEnvs();
