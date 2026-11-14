@@ -6,6 +6,7 @@
 
 import { createSession, SESSION_COOKIE, SESSION_MAX_AGE, timingSafeEqual, clientIpKey } from './_auth';
 import { kvGet, kvPut, kvDelete } from './_db';
+import { notifySlack } from './_slack-alert';
 
 const ADMIN_PIN = process.env.ADMIN_PIN ?? '';
 const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET ?? '';
@@ -28,6 +29,7 @@ export default async function handler(request: Request): Promise<Response> {
 
   if (!ADMIN_PIN || !SESSION_SECRET) {
     console.error('[admin-login] env-uri lipsă (ADMIN_PIN / ADMIN_SESSION_SECRET)');
+    await notifySlack('login-config', 'login admin neconfigurat (lipsesc ADMIN_PIN / ADMIN_SESSION_SECRET)');
     return json({ error: 'Autentificare neconfigurată pe server.' }, 503);
   }
 
@@ -66,6 +68,13 @@ export default async function handler(request: Request): Promise<Response> {
 
     kvPut(ipKey, nextIp);
     kvPut(globalKey, nextGlobal);
+
+    if (nextIp.lockUntil > now) {
+      await notifySlack('login-ip-lock', `login admin: o adresa IP a fost blocata 15 minute dupa ${MAX_FAILS} coduri gresite`);
+    }
+    if (nextGlobal.lockUntil > now) {
+      await notifySlack('login-global-lock', `login admin: blocare globala 2 minute dupa ${GLOBAL_MAX} coduri gresite (posibila incercare de spargere)`);
+    }
 
     return json(
       nextIp.lockUntil > now

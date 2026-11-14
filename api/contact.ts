@@ -5,6 +5,7 @@
 
 import { clientIpKey } from './_auth';
 import { kvGet, kvPut } from './_db';
+import { notifySlack } from './_slack-alert';
 
 const MAILEROO_API_KEY = process.env.MAILEROO_API_KEY ?? '';
 const MAILEROO_FROM_ADDRESS = process.env.MAILEROO_FROM_ADDRESS ?? '';
@@ -29,6 +30,7 @@ export default async function handler(request: Request): Promise<Response> {
 
   if (!MAILEROO_API_KEY || !MAILEROO_FROM_ADDRESS || !MAILEROO_TO_ADDRESS) {
     console.error('[contact] env-uri lipsă (MAILEROO_*)');
+    await notifySlack('contact-config', 'formularul de contact nu e configurat (lipsesc MAILEROO_*)');
     return json({ error: 'Trimiterea mesajelor nu este configurată.' }, 503);
   }
 
@@ -69,6 +71,7 @@ export default async function handler(request: Request): Promise<Response> {
 
   if (!sent || !sent.ok) {
     console.error('[contact] Maileroo error', sent?.status);
+    await notifySlack('contact-failed', `formularul de contact nu a putut trimite emailul (Maileroo: ${sent ? `HTTP ${sent.status}` : 'fara raspuns'})`);
     return json({ error: 'Mesajul nu a putut fi trimis. Încearcă din nou.' }, 502);
   }
 
