@@ -5,8 +5,6 @@ import { WaveDivider } from '@/components/WaveDivider';
 import Footer from '@/components/Footer';
 import WelcomeModal from '@/components/WelcomeModal';
 import InstallPrompt from '@/components/InstallPrompt';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { dbRead } from '@/lib/db';
 
 interface LayoutProps {
@@ -100,8 +98,6 @@ export default function Layout({ children }: LayoutProps) {
         </div>
         <Footer />
       </div>
-      <Analytics />
-      <SpeedInsights />
     </div>
   );
 }
