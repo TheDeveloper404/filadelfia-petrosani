@@ -9,6 +9,9 @@ export default defineConfig({
     globals: true,
     setupFiles: ['tests/setup.ts'],
     include: ['tests/**/*.test.{ts,tsx}'],
+    // Node 25+ defineste un `localStorage` global (gol fara --localstorage-file) care il
+    // ascunde pe cel din jsdom; il oprim ca testele sa foloseasca localStorage-ul jsdom.
+    execArgv: ['--no-experimental-webstorage'],
   },
   resolve: {
     alias: {
